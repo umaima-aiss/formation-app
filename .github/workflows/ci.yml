@@ -2,32 +2,47 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   pull_request:
 
 jobs:
   docker-ci:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -t formation-app .
+        run: docker build -t formation-app:ci .
 
       - name: Run container
-        run: docker run -d --name formation-app-ci -p 3000:3000 formation-app
+        run: |
+          docker run -d --name formation-app-ci -p 3000:3000 formation-app:ci
+
+      - name: Wait for app
+        run: |
+          for i in {1..20}; do
+            if curl -sSf http://localhost:3000/ > /dev/null; then
+              echo "App is up!"
+              exit 0
+            fi
+            echo "Waiting..."
+            sleep 1
+          done
+          echo "App did not start in time"
+          docker logs formation-app-ci || true
+          exit 1
 
       - name: Smoke test /
-        run: curl --fail --retry 10 --retry-delay 2 http://localhost:3000/
+        run: curl -sSf http://localhost:3000/
 
       - name: Smoke test /formations
-        run: curl --fail --retry 10 --retry-delay 2 http://localhost:3000/formations
+        run: curl -sSf http://localhost:3000/formations
+
+      - name: Logs (always)
+        if: always()
+        run: docker logs formation-app-ci || true
 
       - name: Stop and remove container
         if: always()
-        run: |
-          docker stop formation-app-ci || true
-          docker rm formation-app-ci || true
+        run: docker rm -f formation-app-ci || true
