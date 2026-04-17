@@ -2,21 +2,30 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+FORMATIONS = [
+    "Docker pour les debutants",
+    "Introduction a Kubernetes",
+    "CI/CD avec GitHub Actions",
+    "Supervision avec Prometheus",
+]
+
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template(
+        "index.html",
+        formations_count=len(FORMATIONS),
+        active_page="home",
+    )
 
 
 @app.route("/formations")
 def formations():
-    formations_list = [
-        "Docker pour les debutants",
-        "Introduction a Kubernetes",
-        "CI/CD avec GitHub Actions",
-        "Supervision avec Prometheus",
-    ]
-    return render_template("formations.html", formations=formations_list)
+    return render_template(
+        "formations.html",
+        formations=FORMATIONS,
+        active_page="formations",
+    )
 
 
 if __name__ == "__main__":

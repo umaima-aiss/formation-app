@@ -1,13 +1,31 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formation App - Accueil</title>
-</head>
-<body>
-  <h1>Bienvenue sur Formation App</h1>
-  <p>Mini projet DevOps avec Flask.</p>
-  <p><a href="/formations">Voir les formations</a></p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Formation App - Accueil{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <h1>Montez en competence DevOps avec un parcours clair.</h1>
+        <p>
+          Explorez des modules pratiques, du conteneur a la supervision,
+          pour structurer votre progression pas a pas.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="{{ url_for('formations') }}">Voir les formations</a>
+          <a class="btn btn-secondary" href="{{ url_for('index') }}">Accueil</a>
+        </div>
+      </div>
+      <div class="kpis">
+        <article class="kpi">
+          <strong>{{ formations_count }}</strong>
+          <span>formations disponibles</span>
+        </article>
+        <article class="kpi">
+          <strong>100%</strong>
+          <span>accessible en local</span>
+        </article>
+      </div>
+    </div>
+  </section>
+{% endblock %}

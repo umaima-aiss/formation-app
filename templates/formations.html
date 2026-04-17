@@ -1,17 +1,40 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formation App - Formations</title>
-</head>
-<body>
-  <h1>Liste des formations</h1>
-  <ul>
-    {% for formation in formations %}
-      <li>{{ formation }}</li>
-    {% endfor %}
-  </ul>
-  <p><a href="/">Retour a l'accueil</a></p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Formation App - Formations{% endblock %}
+
+{% block content %}
+  <section>
+    <h1 class="section-title">Catalogue des formations</h1>
+    {% if formations %}
+      <div class="grid">
+        {% for formation in formations %}
+          <article class="card">
+            <header class="card-header">
+              <h3>{{ formation }}</h3>
+              <span class="badge">
+                {% if loop.index == 1 %}2h30
+                {% elif loop.index == 2 %}3h00
+                {% elif loop.index == 3 %}2h45
+                {% else %}3h15
+                {% endif %}
+              </span>
+            </header>
+            <p>
+              Parcours concret pour renforcer vos competences operationnelles
+              et automatiser vos workflows.
+            </p>
+            <div class="chips">
+              <span class="chip">DevOps</span>
+              <span class="chip">
+                {% if loop.index is even %}Intermediaire{% else %}Debutant{% endif %}
+              </span>
+              <span class="chip">Pratique</span>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="empty">Aucune formation n'est disponible pour le moment.</p>
+    {% endif %}
+  </section>
+{% endblock %}

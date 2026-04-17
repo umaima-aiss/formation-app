@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Formation App{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="navbar">
+      <div class="container navbar-inner">
+        <a class="brand" href="{{ url_for('index') }}">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span>Formation App</span>
+        </a>
+        <nav class="nav-links" aria-label="Navigation principale">
+          <a class="nav-link {% if active_page == 'home' %}active{% endif %}" href="{{ url_for('index') }}">Accueil</a>
+          <a class="nav-link {% if active_page == 'formations' %}active{% endif %}" href="{{ url_for('formations') }}">Formations</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span>Formation App</span>
+        <span>Mini projet Flask DevOps</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
