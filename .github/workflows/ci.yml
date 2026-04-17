@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  docker-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t formation-app .
+
+      - name: Run container
+        run: docker run -d --name formation-app-ci -p 3000:3000 formation-app
+
+      - name: Smoke test /
+        run: curl --fail --retry 10 --retry-delay 2 http://localhost:3000/
+
+      - name: Smoke test /formations
+        run: curl --fail --retry 10 --retry-delay 2 http://localhost:3000/formations
+
+      - name: Stop and remove container
+        if: always()
+        run: |
+          docker stop formation-app-ci || true
+          docker rm formation-app-ci || true

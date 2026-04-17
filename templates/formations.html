@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formation App - Formations</title>
+</head>
+<body>
+  <h1>Liste des formations</h1>
+  <ul>
+    {% for formation in formations %}
+      <li>{{ formation }}</li>
+    {% endfor %}
+  </ul>
+  <p><a href="/">Retour a l'accueil</a></p>
+</body>
+</html>

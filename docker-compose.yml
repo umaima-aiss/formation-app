@@ -1,0 +1,6 @@
+services:
+  formation-app:
+    build: .
+    container_name: formation-app
+    ports:
+      - "3000:3000"
